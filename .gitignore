@@ -1,0 +1,14 @@
+.data
+.envrc
+.idea/
+.bundle/
+coverage
+spec/examples.txt
+
+/node_modules
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
+
+web/public/css

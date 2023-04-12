@@ -1,0 +1,27 @@
+<%
+  game = promotion.game
+  upcoming ||= false
+  start_date = promotion.start_date.strftime("%b %d")
+  end_date = promotion.end_date.strftime("%b %d")
+  image_url = game.small_image_url || "https://via.placeholder.com/360x480"
+%>
+<div class="rounded-xl overflow-hidden">
+  <a href="<%= game.store_url %>">
+    <div class="mb-4 rounded">
+      <div>
+        <img alt="<%= game.title %>" src="<%= image_url %>" />
+      </div>
+      <%= erb(:"promotions/_tag", locals: {upcoming:}) %>
+    </div>
+    <div>
+      <div class="text-white">
+        <%= game.title %>
+      </div>
+      <span>
+        <span class="text-slate-400">
+          <%= "From #{start_date} to #{end_date}" %>
+        </span >
+      </span>
+    </div>
+  </a>
+</div>

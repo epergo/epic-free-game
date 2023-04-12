@@ -1,0 +1,19 @@
+tmp
+.data
+.bundle
+.idea
+.vscode
+coverage
+.envrc
+.editorconfig
+.gitignore
+tags
+.pnp.*
+.rspec
+.tool-versions
+docker-compose.yml
+Dockerfile
+Procfile.dev
+
+# Assets must be compiled for production
+public/css

@@ -1,0 +1,4 @@
+environment: "development"
+telegram:
+  chat_id: <%= ENV["TELEGRAM_CHAT_ID"] %>
+  token: <%= ENV["TELEGRAM_API_TOKEN"] %>

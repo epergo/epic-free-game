@@ -1,0 +1,17 @@
+{
+  "formation": {
+    "web": {
+      "max_parallel": 1
+    }
+  },
+  "cron": [
+    {
+      "command": "bundle exec rake update_games",
+      "schedule": "15 8,20 * * *"
+    },
+    {
+      "command": "bundle exec rake notify_new_promotions",
+      "schedule": "30 8,20 * * *"
+    }
+  ]
+}

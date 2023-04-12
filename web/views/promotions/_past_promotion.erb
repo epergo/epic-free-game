@@ -1,0 +1,27 @@
+<%
+  game = promotion.game
+  start_date = promotion.start_date.strftime("%Y %b %d")
+  end_date = promotion.end_date.strftime("%Y %b %d")
+  image_url = game.small_image_url || "https://via.placeholder.com/360x480"
+%>
+<div class="overflow-hidden">
+  <div class="mb-4 rounded">
+    <div>
+      <img class="rounded-md grayscale"
+        loading="lazy"
+        alt="<%= game.title %>"
+        src="<%= image_url %>"
+        onerror="this.onerror=null; this.src='images/placeholder.png';" />
+    </div>
+  </div>
+  <div>
+    <div class="text-slate-200">
+      <%= game.title %>
+    </div>
+    <span>
+      <span class="text-slate-400">
+        <%= "#{start_date} - #{end_date}" %>
+      </span >
+    </span>
+  </div>
+</div>
