@@ -62,6 +62,8 @@ class UpdateGames
           discount_percentage: promotional_offer["discountSetting"]["discountPercentage"]
         )
       end
+    rescue => e
+      puts "Error creating promotion: #{e.message} - Offer: #{offer}"
     end
 
     promotions
