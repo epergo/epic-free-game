@@ -7,11 +7,11 @@
   "cron": [
     {
       "command": "bundle exec rake update_games",
-      "schedule": "15 8,20 * * *"
+      "schedule": "15 8,17 * * *"
     },
     {
       "command": "bundle exec rake notify_new_promotions",
-      "schedule": "30 8,20 * * *"
+      "schedule": "30 8,17 * * *"
     }
   ]
 }
