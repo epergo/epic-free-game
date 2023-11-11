@@ -21,7 +21,7 @@ RSpec.describe(UpdateGames) do
         game = Game.first(title: "Tunche")
 
         expect(game.product_slug).to eq("tunche")
-        expect(game.url_slug).to eq("astatinegeneralaudience")
+        expect(game.url_slug).to eq("tunche")
 
         promotions = Promotion.where(game_id: game.id)
         expect(promotions.count).to eq(2)
