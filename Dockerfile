@@ -7,7 +7,8 @@ RUN apk add --no-cache \
     build-base \
     libpq-dev \
     nodejs \
-    npm
+    npm \
+    git
 
 RUN npm install -g corepack \
     && corepack enable \
