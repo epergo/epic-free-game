@@ -12,13 +12,13 @@ class LoadPastPromotions
       promotion_dates = line.split(":")[0]
       titles = line.split(":")[1..].join(":")
 
-      if date_match = /(\w+ \d{1,2}, \d{4}) - (\w+ \d{1,2}, \d{4})/.match(promotion_dates)
+      date_match = if /(\w+ \d{1,2}, \d{4}) - (\w+ \d{1,2}, \d{4})/ =~ promotion_dates
         start_date = DateTime.parse("#{$1} 15:00 UTC")
         end_date = DateTime.parse("#{$2} 15:00 UTC")
-      elsif date_match = /(\w+ \d{1,2})\s+-\s+(\w+ \d{1,2})\s*,\s*(\d{4})/ =~ promotion_dates
+      elsif /(\w+ \d{1,2})\s+-\s+(\w+ \d{1,2})\s*,\s*(\d{4})/ =~ promotion_dates
         start_date = DateTime.parse("#{$1} #{$3} 15:00 UTC")
         end_date = DateTime.parse("#{$2} #{$3} 15:00 UTC")
-      elsif date_match = /(\w+ \d{1,2}), (\d{4})/ =~ promotion_dates
+      elsif /(\w+ \d{1,2}), (\d{4})/ =~ promotion_dates
         start_date = DateTime.parse("#{$1} #{$2} 15:00 UTC")
         end_date = start_date + 1 # Next day
       end
