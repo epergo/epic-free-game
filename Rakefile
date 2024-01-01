@@ -10,7 +10,7 @@ end
 task default: :test
 
 task :update_games do
-  require_relative "./config/boot"
+  require_relative "config/boot"
 
   epic_url = "https://store-site-backend-static.ak.epicgames.com".freeze
 
@@ -19,7 +19,7 @@ task :update_games do
 end
 
 task :notify_new_promotions do
-  require_relative "./config/boot"
+  require_relative "config/boot"
 
   NotifyTelegram.new.call
 end
@@ -56,9 +56,9 @@ namespace :db do
 
   namespace :seed do
     task :past_promotions do
-      require_relative "./config/boot"
+      require_relative "config/boot"
 
-      require_relative "./db/load_past_promotions"
+      require_relative "db/load_past_promotions"
 
       api_url = "https://store.epicgames.com/graphql"
 

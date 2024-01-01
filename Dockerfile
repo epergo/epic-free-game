@@ -1,4 +1,4 @@
-FROM ruby:3.2.2-alpine AS builder
+FROM ruby:3.3.0-alpine AS builder
 
 WORKDIR /app
 
@@ -29,7 +29,7 @@ COPY . .
 
 RUN yarn build:css:production
 
-FROM ruby:3.2.2-alpine
+FROM ruby:3.3.0-alpine
 
 WORKDIR /app
 
