@@ -14,6 +14,8 @@ tags
 docker-compose.yml
 Dockerfile
 Procfile.dev
+node_modules
+.ruby-lsp
 
 # Assets must be compiled for production
 public/css

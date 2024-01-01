@@ -22,10 +22,8 @@ RUN bundle config set without "development test"
 
 RUN bundle install --jobs $(nproc) --retry 3
 
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
-
 COPY . .
+RUN yarn install --frozen-lockfile
 
 RUN yarn build:css:production
 
@@ -48,3 +46,5 @@ COPY . .
 EXPOSE 5000
 
 CMD ["bin/entrypoint"]
+
+
