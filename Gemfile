@@ -4,12 +4,12 @@ source "https://rubygems.org"
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-ruby "~> 3.2"
+ruby "~> 3.3"
 
 gem "faraday"
 gem "telegram-bot-ruby", require: "telegram/bot"
 gem "puma"
-gem "sinatra", require: "sinatra/base", github: "dentarg/sinatra", branch: "rack-3"
+gem "sinatra", require: "sinatra/base"
 gem "rake"
 gem "pry-byebug"
 gem "sequel"
