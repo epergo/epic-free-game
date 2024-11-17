@@ -1,4 +1,4 @@
-FROM ruby:3.3.0-alpine AS builder
+FROM ruby:3.3-alpine AS builder
 
 WORKDIR /app
 
@@ -10,10 +10,6 @@ RUN apk add --no-cache \
     npm \
     git
 
-RUN npm install -g corepack \
-    && corepack enable \
-    && corepack prepare yarn@stable --activate
-
 COPY Gemfile Gemfile.lock ./
 
 RUN bundle config set deployment true
@@ -23,11 +19,11 @@ RUN bundle config set without "development test"
 RUN bundle install --jobs $(nproc) --retry 3
 
 COPY . .
-RUN yarn install --frozen-lockfile
+RUN npm install
 
-RUN yarn build:css:production
+RUN npm run build:css:production
 
-FROM ruby:3.3.0-alpine
+FROM ruby:3.3-alpine
 
 WORKDIR /app
 
@@ -46,5 +42,3 @@ COPY . .
 EXPOSE 5000
 
 CMD ["bin/entrypoint"]
-
-

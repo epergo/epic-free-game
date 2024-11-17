@@ -1,8 +1,7 @@
 {
   "name": "epic_free_game_bot",
-  "packageManager": "yarn@3.3.1",
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
   "dependencies": {
     "autoprefixer": "^10.4.20",
@@ -13,6 +12,6 @@
   },
   "scripts": {
     "build:css": "postcss ./web/assets/stylesheets/ --output ./web/public/css/application.css",
-    "build:css:production": "NODE_ENV=production yarn build:css"
+    "build:css:production": "NODE_ENV=production npm run build:css"
   }
 }
