@@ -13,5 +13,16 @@
       "command": "bundle exec rake notify_new_promotions",
       "schedule": "30 8,17 * * *"
     }
-  ]
+  ],
+  "healthchecks": {
+    "web": [
+      {
+        "type": "startup",
+        "name": "web check",
+        "description": "Checking if the app responds to / endpoint",
+        "path": "/",
+        "attempts": 3
+      }
+    ]
+  }
 }
