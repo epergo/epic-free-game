@@ -4,27 +4,28 @@ source "https://rubygems.org"
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-ruby "~> 3.3"
+ruby "~> 3.4"
 
-gem "faraday"
-gem "telegram-bot-ruby", require: "telegram/bot"
-gem "puma"
-gem "sinatra", require: "sinatra/base"
-gem "rake"
-gem "rackup"
-gem "pry-byebug"
-gem "sequel"
-gem "pg"
 gem "config"
+gem "faraday"
+gem "pg"
+gem "pry-byebug"
+gem "puma"
+gem "rackup"
+gem "rake"
+gem "sequel"
+gem "sinatra", require: "sinatra/base"
+gem "telegram-bot-ruby", require: "telegram/bot"
 gem "zeitwerk"
 
 group :development do
   gem "standardrb"
+  gem "ruby-lsp"
 end
 
 group :test do
-  gem "timecop"
+  gem "database_cleaner-sequel"
   gem "rspec"
   gem "simplecov"
-  gem "database_cleaner-sequel"
+  gem "timecop"
 end

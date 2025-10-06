@@ -1,4 +1,4 @@
-FROM ruby:3.3-alpine AS builder
+FROM ruby:3.4-alpine AS builder
 
 WORKDIR /app
 
@@ -23,13 +23,14 @@ RUN npm install
 
 RUN npm run build:css:production
 
-FROM ruby:3.3-alpine
+FROM ruby:3.4-alpine
 
 WORKDIR /app
 
 RUN apk add --no-cache \
     curl \
-    libpq-dev
+    libpq-dev \
+    gcompat
 
 RUN bundle config set deployment true
 RUN bundle config set without development test
