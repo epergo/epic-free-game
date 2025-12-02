@@ -1,2 +1,2 @@
 web: bundle exec rackup
-css: npm run build:css -- --watch
+css: pnpm run build:css -- --watch

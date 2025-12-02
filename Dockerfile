@@ -7,7 +7,7 @@ RUN apk add --no-cache \
     build-base \
     libpq-dev \
     nodejs \
-    npm \
+    pnpm \
     git
 
 COPY Gemfile Gemfile.lock ./
@@ -19,9 +19,9 @@ RUN bundle config set without "development test"
 RUN bundle install --jobs $(nproc) --retry 3
 
 COPY . .
-RUN npm install
+RUN pnpm install
 
-RUN npm run build:css:production
+RUN pnpm run build:css:production
 
 FROM ruby:3.4-alpine
 
