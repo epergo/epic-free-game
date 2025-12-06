@@ -28,7 +28,9 @@ namespace :db do
   task :create, [:db_name] do |t, args|
     require "sequel"
 
-    db = Sequel.connect(ENV["POSTGRES_URL"].to_s)
+    database_url = "postgres://#{ENV["POSTGRES_USER"]}:#{ENV["POSTGRES_PASSWORD"]}@#{ENV["POSTGRES_HOST"]}:5432/postgres"
+
+    db = Sequel.connect(database_url.to_s)
     db.run("DROP DATABASE IF EXISTS #{args[:db_name]}")
     db.run("CREATE DATABASE #{args[:db_name]}")
   end
@@ -37,7 +39,9 @@ namespace :db do
     require "sequel"
     require "sequel/extensions/migration"
 
-    Sequel::Migrator.run(Sequel.connect(ENV["DATABASE_URL"].to_s), "db/migrations")
+    database_url = "postgres://#{ENV["POSTGRES_USER"]}:#{ENV["POSTGRES_PASSWORD"]}@#{ENV["POSTGRES_HOST"]}:5432/#{ENV["POSTGRES_DB"]}"
+
+    Sequel::Migrator.run(Sequel.connect(database_url.to_s), "db/migrations")
   end
 
   namespace :test do

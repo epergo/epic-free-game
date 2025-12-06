@@ -1,0 +1,83 @@
+service: epic-free-game
+
+image: epergo/epic-free-game
+
+servers:
+  web:
+    - epergo.com
+  cron:
+    hosts:
+      - epergo.com
+    cmd: bash -c "bin/scheduler"
+
+# Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
+# Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
+#
+# Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
+proxy:
+  ssl: true
+  host: epic-free-game.epergo.com
+  app_port: 5000
+
+registry:
+  server: registry.gitlab.com
+  username: epergo
+
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+
+env:
+  clear:
+    POSTGRES_HOST: epic-free-game-db
+    POSTGRES_USER: epic_free_game
+    POSTGRES_DB: epic_free_game_production
+    RACK_ENV: production
+    TELEGRAM_CHAT_ID: -1001195148048
+  secret:
+    - POSTGRES_PASSWORD
+    - TELEGRAM_API_TOKEN
+
+# Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
+# "bin/kamal app logs -r job" will tail logs from the first server in the job section.
+#
+# aliases:
+#   shell: app exec --interactive --reuse "bash"
+
+# Use a different ssh user than root
+
+ssh:
+  user: kamal
+
+# Use a persistent storage volume.
+#
+# volumes:
+#   - "app_storage:/app/storage"
+
+# Bridge fingerprinted assets, like JS and CSS, between versions to avoid
+# hitting 404 on in-flight requests. Combines all files from new and old
+# version inside the asset_path.
+#
+# asset_path: /app/public/assets
+
+# Configure rolling deploys by setting a wait time between batches of restarts.
+#
+# boot:
+#   limit: 10 # Can also specify as a percentage of total hosts, such as "25%"
+#   wait: 2
+
+accessories:
+  db:
+    image: postgres:18
+    host: epergo.com
+    port: 5432
+    env:
+      clear:
+        POSTGRES_USER: epic_free_game
+        POSTGRES_DB: epic_free_game_production
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql

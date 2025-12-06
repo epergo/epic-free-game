@@ -1,44 +1,53 @@
-FROM ruby:3.4-alpine AS builder
+FROM docker.io/library/ruby:4.0.0-slim AS base
 
 WORKDIR /app
 
-RUN apk add --no-cache \
-    curl \
-    build-base \
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    build-essential \
     libpq-dev \
+    libyaml-dev \
     nodejs \
-    pnpm \
-    git
+    git \
+    libjemalloc2 \
+    curl && \
+    ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+ENV BUNDLE_DEPLOYMENT="1" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development" \
+    PNPM_HOME="/pnpm"
+
+ENV PATH="$PNPM_HOME:$PATH"
+
+FROM base AS build
+
+RUN corepack enable
 
 COPY Gemfile Gemfile.lock ./
 
-RUN bundle config set deployment true
-RUN bundle config set clean true
-RUN bundle config set without "development test"
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
 
-RUN bundle install --jobs $(nproc) --retry 3
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install
 
 COPY . .
-RUN pnpm install
 
 RUN pnpm run build:css:production
 
-FROM ruby:3.4-alpine
+RUN rm -rf node_modules
 
-WORKDIR /app
+FROM base
 
-RUN apk add --no-cache \
-    curl \
-    libpq-dev \
-    gcompat
+RUN groupadd --system --gid 1000 epic && \
+    useradd -m epic --uid 1000 --gid 1000 --shell /bin/bash
 
-RUN bundle config set deployment true
-RUN bundle config set without development test
+USER 1000:1000
 
-COPY --from=builder /app/web/public/css/application.css /app/web/public/css/application.css
-COPY --from=builder /app/vendor/bundle /app/vendor/bundle
-
-COPY . .
+COPY --from=build --chown=epic:epic "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+COPY --from=build --chown=epic:epic /app /app
 
 EXPOSE 5000
 

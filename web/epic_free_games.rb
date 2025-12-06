@@ -9,7 +9,7 @@ class EpicFreeGames < Sinatra::Application
     erb(:"promotions/index")
   end
 
-  get "/status" do
+  get "/up" do
     content_type(:json)
     {status: "ok"}.to_json
   end

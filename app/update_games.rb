@@ -39,13 +39,14 @@ class UpdateGames
         active_promotions = build_promotions(game.dig("promotions", "promotionalOffers") || [])
         upcoming_promotions = build_promotions(game.dig("promotions", "upcomingPromotionalOffers") || [])
         thumbnail_image = game["keyImages"].find { |image| image["type"] == "Thumbnail" }
+        store_front_wide = game["keyImages"].find { |image| image["type"] == "DieselStoreFrontWide" }
 
         url_slug = game.dig("catalogNs", "mappings")&.first&.[]("pageSlug") || game["urlSlug"]
         GameData.new(
           title: game["title"],
           product_slug: game["productSlug"],
           url_slug:,
-          image_url: thumbnail_image&.fetch("url", nil),
+          image_url: thumbnail_image&.fetch("url", nil) || store_front_wide&.fetch("url", nil),
           promotions: active_promotions + upcoming_promotions
         )
       end

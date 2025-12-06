@@ -12,7 +12,8 @@ require "logger"
 
 loggers = (Settings.environment == "development") ? Logger.new($stdout) : []
 
-Sequel.connect(ENV["DATABASE_URL"].to_s, loggers:)
+database_url = "postgres://#{ENV["POSTGRES_USER"]}:#{ENV["POSTGRES_PASSWORD"]}@#{ENV["POSTGRES_HOST"]}:5432/#{ENV["POSTGRES_DB"]}"
+Sequel.connect(database_url.to_s, loggers:)
 Sequel::Model.plugin(:update_or_create)
 
 loader = Zeitwerk::Loader.new

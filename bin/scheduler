@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require_relative "../config/boot"
+
+scheduler = Rufus::Scheduler.new
+
+scheduler.cron "15 * * * *" do
+  load "Rakefile"
+  Rake::Task["update_games"].invoke
+end
+
+scheduler.cron "30 * * * *" do
+  load "Rakefile"
+  Rake::Task["notify_new_promotions"].invoke
+end
+
+scheduler.join
